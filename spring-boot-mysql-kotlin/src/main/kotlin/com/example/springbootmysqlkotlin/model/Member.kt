@@ -1,5 +1,6 @@
 package com.example.springbootmysqlkotlin.model
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import javax.persistence.*
 
 @Entity
@@ -9,7 +10,10 @@ class Member(
     val firstName: String,
     val lastName: String,
 
-    @Enumerated(EnumType.STRING)
-    val status: MemberStatus
+    @Enumerated(EnumType.STRING) val status: MemberStatus,
 
-)
+    @JsonBackReference @OneToMany(
+        mappedBy = "member", fetch = FetchType.LAZY, cascade = [CascadeType.ALL]
+    ) val lends: List<Lend>,
+
+    )
